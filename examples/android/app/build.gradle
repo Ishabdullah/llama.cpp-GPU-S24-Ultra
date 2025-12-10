@@ -1,0 +1,36 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.llamacpp'
+    compileSdk 34
+    defaultConfig {
+        applicationId "com.example.llamacpp"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-O3 -DGGML_USE_ACCELERATE -DGGML_USE_VULKAN -DGGML_USE_VULKAN_FP16"
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.12.0'
+}
