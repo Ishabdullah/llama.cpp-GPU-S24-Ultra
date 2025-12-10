@@ -38,12 +38,17 @@ jobs:
       - name: Accept SDK licenses
         run: yes | $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/bin/sdkmanager --licenses
 
+      - name: Enable Vulkan GPU + FP16 flags
+        run: |
+          sed -i '1i set(LLAMA_VULKAN ON)' CMakeLists.txt
+          sed -i '1i set(LLAMA_VULKAN_F16 ON)' CMakeLists.txt
+
       - name: Build APK
-        working-directory: ./android
+        working-directory: ./examples/android
         run: ./gradlew assembleRelease
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: llama-apk
-          path: ./android/app/build/outputs/apk/release/app-release.apk
+          path: ./examples/android/app/build/outputs/apk/release/app-release.apk
